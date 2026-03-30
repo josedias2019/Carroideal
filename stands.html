@@ -519,12 +519,7 @@ function submitGate(){
   }
 
   // Send to WhatsApp for verification
-  const msg = encodeURIComponent('Novo pedido de acesso de stand:
-
-Stand: ' + nome + '
-NIF: ' + nif + '
-Certidão: ' + cert + '
-Telefone: ' + tel);
+  const msg = encodeURIComponent('Novo pedido de acesso de stand:\n\nStand: ' + nome + '\nNIF: ' + nif + '\nCertidão: ' + cert + '\nTelefone: ' + tel);
   window.open('https://wa.me/351911954717?text=' + msg, '_blank');
 
   // Show plans
