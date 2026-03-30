@@ -285,10 +285,7 @@ footer p{font-size:.68rem;color:#444;}
         <button class="so" data-dim="status" data-val="-2"><span>💡</span>Poupança. Funcionalidade primeiro.</button>
       </div>
     </div>
-
-    <div class="q-block" data-i="10">
-      <div class="q-cat">Urgência</div>
-      <p class="q-text">Quando precisas do teu próximo carro?</p>
+<p class="q-text">Quando precisas do teu próximo carro?</p>
       <div class="sopts">
         <button class="so" data-dim="bold" data-val="2"><span>⚡</span>Já. Estou à procura agora.</button>
         <button class="so" data-dim="bold" data-val="1"><span>📅</span>Nos próximos 1 a 3 meses.</button>
@@ -785,7 +782,7 @@ function mostrarCarros(n){
     
     // Stand info por tipo de carro
     const isImport = c.badge !== 'cbadge-pt';
-    const standHtml = renderStandInfo(perfil, isImport);
+    const standHtml = renderStandInfo(profileKey, isImport);
     
     card.innerHTML='<div class="car-body-inner"><div class="car-num">'+c.n+'</div><div class="car-info"><div class="car-badges"><span class="cbadge '+c.badge+'">'+c.type+'</span></div><div class="car-name">'+c.name+'</div><div class="car-range">'+c.range+'</div>'+sp+'<div class="car-desc">'+c.desc+'</div><a href="https://wa.me/351911954717?text='+waMsg+'" target="_blank" class="car-link" style="color:#25D366;font-weight:600;display:inline-flex;align-items:center;gap:.3rem;margin-bottom:.4rem;">📱 Quero este carro →</a>'+standHtml+'</div></div>';
     grid.appendChild(card);
@@ -854,7 +851,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxs5WP9tIT3mMe7
 async function enviarLead(perfil, distrito, nomeLead, telLead, carros, path) {
   try {
     const perfilNome = PROFILES[perfil] ? PROFILES[perfil].name : perfil;
-    const carrosNomes = PROFILES[perfil] ? PROFILES[perfil].national.map(c => c.name).join(', ') : carros;
+    const carrosNomes = PROFILES[perfil] ? PROFILES[perfil].cars.map(c => c.name).join(', ') : carros;
     
     await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
