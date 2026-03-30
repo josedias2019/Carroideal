@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CarroIdeal.pt — Parceiros & Stands</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--black:#060606;--dark:#0f0f0f;--dark2:#161616;--dark3:#1e1e1e;--dark4:#262626;--gold:#c9a84c;--gold2:#e2c065;--silver:#888;--white:#f0ede8;--muted:#aaa8a3;--green:#4ade80;--amber:#e2c065;--red:#f87171;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.3rem 2.5rem;background:rgba(6,6,6,.97);border-bottom:1px solid rgba(255,255,255,.04);}
+.nav-logo{font-size:.72rem;font-weight:600;letter-spacing:.32em;color:var(--white);text-decoration:none;}
+.nav-cta{font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--black);background:var(--gold2);padding:.6rem 1.4rem;text-decoration:none;transition:all .2s;}
+.nav-cta:hover{background:var(--gold);}
+.nav-back{font-size:.68rem;letter-spacing:.15em;color:var(--silver);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--white);}
+
+/* HERO */
+#hero{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:8rem 1.5rem 5rem;position:relative;overflow:hidden;text-align:center;}
+.hero-bg{position:absolute;inset:0;}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 80% 50%,rgba(201,168,76,.06) 0%,transparent 70%);}
+.hero-tag{font-size:.68rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.8rem;}
+.hero-tag::before{content:'';width:30px;height:1px;background:var(--gold);}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,5rem);font-weight:700;line-height:1.05;max-width:14ch;margin:0 auto 1.5rem;}
+.hero-h1 em{font-style:italic;color:var(--gold2);}
+.hero-sub{font-size:.95rem;font-weight:300;color:var(--silver);line-height:1.85;max-width:46ch;margin:0 auto 3rem;}
+.hero-stats{display:flex;gap:3rem;flex-wrap:wrap;justify-content:center;}
+.stat{border-left:1px solid rgba(201,168,76,.25);padding-left:1.2rem;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:600;color:var(--gold2);line-height:1;display:block;}
+.stat-label{font-size:.72rem;color:var(--silver);letter-spacing:.08em;margin-top:.3rem;}
+
+/* SECTION */
+section{padding:4rem 1.5rem;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-tag{font-size:.68rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;display:block;text-align:center;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:600;line-height:1.2;margin-bottom:1.2rem;text-align:center;}
+.section-title em{font-style:italic;color:var(--gold2);}
+.section-body{font-size:.9rem;color:var(--silver);line-height:1.85;font-weight:300;}
+
+/* HOW IT WORKS */
+#how{border-top:1px solid rgba(255,255,255,.04);}
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:3.5rem;}
+.step-card{background:var(--dark2);padding:2.2rem 1.8rem;position:relative;transition:background .3s;}
+.step-card:hover{background:var(--dark3);}
+.step-top-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.step-card:hover .step-top-line{opacity:1;}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:rgba(201,168,76,.1);line-height:1;margin-bottom:1.2rem;}
+.step-icon{font-size:1.5rem;margin-bottom:.8rem;display:block;}
+.step-title{font-size:.88rem;font-weight:700;letter-spacing:.05em;margin-bottom:.6rem;color:var(--white);}
+.step-desc{font-size:.82rem;color:var(--silver);line-height:1.7;font-weight:300;}
+
+/* LEAD SAMPLE */
+#sample{background:var(--dark);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);}
+.sample-inner{max-width:900px;margin:0 auto;}
+.sample-label{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.18em;color:var(--silver);text-transform:uppercase;border:1px solid rgba(255,255,255,.1);padding:.4rem 1rem;margin-bottom:2.5rem;}
+.sample-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;}
+.lead-card{background:var(--dark2);border:1px solid rgba(255,255,255,.07);padding:2.5rem;}
+.lead-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,.06);}
+.lead-id{font-size:.72rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;}
+.lead-urgency{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:600;color:var(--red);}
+.lead-urgency-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1s infinite;}
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.lead-block{}
+.lead-block-title{font-size:.65rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem;}
+.profile-pill{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(201,168,76,.25);padding:.5rem 1rem;font-size:.82rem;color:var(--gold2);}
+.profile-pill-icon{font-size:1rem;}
+.profile-desc-small{font-size:.8rem;color:var(--silver);line-height:1.6;font-weight:300;margin-top:.7rem;}
+.cars-mini{display:grid;gap:.5rem;}
+.car-mini-row{display:flex;align-items:center;gap:.8rem;font-size:.82rem;}
+.car-mini-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.car-mini-name{color:var(--white);font-weight:500;}
+.car-mini-range{color:var(--muted);font-size:.72rem;margin-left:auto;}
+.budget-bar-wrap{margin-top:.5rem;}
+.budget-label{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-bottom:.5rem;}
+.budget-track{height:3px;background:var(--dark3);border-radius:2px;}
+.budget-fill{height:3px;background:linear-gradient(to right,var(--gold),var(--gold2));border-radius:2px;width:65%;}
+.budget-value{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--gold2);margin-top:.5rem;}
+.urgency-bar{display:flex;gap:.4rem;margin-top:.5rem;}
+.urgency-block{flex:1;height:6px;border-radius:1px;}
+.urgency-block.filled{background:var(--red);}
+.urgency-block.empty{background:var(--dark3);}
+.urgency-text{font-size:.8rem;color:var(--red);font-weight:600;margin-top:.6rem;}
+.lead-card-footer{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.lead-footer-note{font-size:.75rem;color:var(--muted);}
+.lead-footer-note strong{color:var(--white);}
+
+/* PLANS */
+#plans{border-top:1px solid rgba(255,255,255,.04);}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem;}@media(max-width:768px){.plans-grid{grid-template-columns:1fr;}.steps-row{grid-template-columns:1fr;}.profiles-grid{grid-template-columns:1fr 1fr;}}
+.plan-card{background:var(--dark2);padding:2.5rem 2rem;position:relative;transition:background .3s;}
+.plan-card.featured{background:var(--dark3);border:1px solid rgba(201,168,76,.2);}
+.plan-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold2);color:var(--black);font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.3rem 1rem;}
+.plan-name{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+.plan-price{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;line-height:1;margin-bottom:.3rem;}
+.plan-price span{font-size:1.2rem;font-weight:300;color:var(--muted);}
+.plan-period{font-size:.75rem;color:var(--silver);margin-bottom:2rem;}
+.plan-features{display:grid;gap:.7rem;margin-bottom:2.5rem;}
+.plan-feat{display:flex;align-items:flex-start;gap:.7rem;font-size:.83rem;color:var(--muted);font-weight:300;}
+.plan-feat-check{color:var(--gold2);flex-shrink:0;margin-top:.1rem;}
+.plan-feat.highlight{color:var(--white);}
+.plan-btn{display:block;text-align:center;padding:.9rem 1.5rem;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:all .25s;cursor:pointer;border:none;width:100%;}
+.plan-btn-outline{border:1px solid rgba(255,255,255,.15);color:var(--muted);background:transparent;}
+.plan-btn-outline:hover{border-color:var(--gold2);color:var(--gold2);}
+.plan-btn-gold{background:var(--gold2);color:var(--black);}
+.plan-btn-gold:hover{background:var(--gold);}
+
+/* PROFILES INDEX */
+#profiles-index{background:var(--dark);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);}
+.profiles-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:3rem;}
+.profile-card{background:var(--dark2);padding:1.8rem 1.5rem;text-align:center;transition:background .3s;}
+.profile-card:hover{background:var(--dark3);}
+.profile-card-icon{font-size:1.8rem;margin-bottom:.8rem;display:block;}
+.profile-card-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;margin-bottom:.5rem;}
+.profile-card-desc{font-size:.75rem;color:var(--silver);line-height:1.6;font-weight:300;}
+.profile-card-chips{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center;margin-top:.8rem;}
+.p-chip{font-size:.58rem;letter-spacing:.08em;color:var(--gold);border:1px solid rgba(201,168,76,.2);padding:.15rem .5rem;}
+
+/* FAQ */
+#faq{border-top:1px solid rgba(255,255,255,.04);}
+.faq-list{max-width:700px;margin:3rem auto 0;display:grid;gap:1px;}
+.faq-item{background:var(--dark2);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.3rem 1.5rem;cursor:pointer;font-size:.88rem;font-weight:500;color:var(--white);transition:color .2s;}
+.faq-q:hover{color:var(--gold2);}
+.faq-icon{font-size:1rem;color:var(--gold2);flex-shrink:0;}
+.faq-a{display:none;padding:0 1.5rem 1.3rem;font-size:.83rem;color:var(--silver);line-height:1.75;font-weight:300;}
+.faq-item.open .faq-a{display:block;}
+.faq-item.open .faq-q{color:var(--gold2);}
+
+/* CTA FINAL */
+#cta-final{text-align:center;padding:7rem 2.5rem;}
+#cta-final::before{content:'';display:block;width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 3rem;}
+.cta-btn-wa{display:inline-flex;align-items:center;gap:.8rem;background:#25D366;color:#fff;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:1.1rem 2.5rem;text-decoration:none;transition:all .25s;}
+.cta-btn-wa:hover{background:#1fba5a;transform:translateY(-2px);}
+.cta-note{margin-top:1.5rem;font-size:.78rem;color:var(--muted);}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.04);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-size:.72rem;letter-spacing:.3em;color:var(--gold);}
+footer p{font-size:.75rem;color:var(--silver);}
+footer a{color:var(--silver);text-decoration:none;transition:color .2s;}
+footer a:hover{color:var(--gold2);}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:1.8rem;right:1.8rem;z-index:200;background:#25D366;color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);text-decoration:none;transition:transform .3s;}
+.wa-float:hover{transform:scale(1.1);}
+.wa-float svg{width:24px;}
+
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  #hero{padding:6rem 1.5rem 4rem;}
+  section{padding:4rem 1.5rem;}
+  .steps-row{grid-template-columns:1fr;}
+  .plans-grid{grid-template-columns:1fr;}
+  .plan-card.featured{border:1px solid rgba(201,168,76,.2);}
+  .profiles-grid{grid-template-columns:1fr 1fr;}
+  .lead-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:2rem;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">← Voltar ao Site</a>
+  <a href="#" class="nav-logo">CARROIDEAL.PT</a>
+  <a href="#cta-final" class="nav-cta">Aderir Agora</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div style="max-width:700px;margin:0 auto;">
+    <div class="hero-tag">Para Donos de Stands</div>
+    <h1 class="hero-h1">Receba clientes<br/>já <em>decididos</em> a comprar.</h1>
+    <p class="hero-sub">Imagine receber um cliente que já sabe que carro quer, qual o seu orçamento e com urgência de compra. É isso que o CarroIdeal.pt faz pelo seu stand — todos os dias.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">5</span>
+        <span class="stat-label">Perfis de comprador identificados</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3×</span>
+        <span class="stat-label">Maior taxa de conversão vs. lead frio</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Leads com orçamento definido</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="how">
+  <div class="section-inner">
+    <span class="section-tag">Processo</span>
+    <h2 class="section-title">Como chegam os leads<br/>ao seu <em>stand.</em></h2>
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-top-line"></div>
+        <div class="step-n">01</div>
+        <span class="step-icon">🧠</span>
+        <div class="step-title">O cliente faz um teste</div>
+        <div class="step-desc">O cliente responde a 10 perguntas rápidas sobre o seu estilo de vida. Sem falar de carros — falamos de personalidade. Isto filtra logo os curiosos dos compradores reais.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-top-line"></div>
+        <div class="step-n">02</div>
+        <span class="step-icon">🎯</span>
+        <div class="step-title">Criamos o perfil do comprador</div>
+        <div class="step-desc">O sistema define automaticamente o perfil do cliente — tipo de carro, orçamento e urgência. O cliente vê os 3 carros certos para ele e entra em contacto.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-top-line"></div>
+        <div class="step-n">03</div>
+        <span class="step-icon">📋</span>
+        <div class="step-title">O seu stand recebe a ficha completa</div>
+        <div class="step-desc">Recebe por WhatsApp: nome, perfil psicológico, carro pretendido, orçamento e urgência. Em segundos sabe se é o cliente certo para o seu stock.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-top-line"></div>
+        <div class="step-n">04</div>
+        <span class="step-icon">🤝</span>
+        <div class="step-title">Só tem de ligar e vender</div>
+        <div class="step-desc">O trabalho de qualificação já está feito. O cliente já escolheu. O seu stand só tem de ligar e fechar o negócio. Simples assim.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXEMPLO DE LEAD -->
+<section id="sample">
+  <div class="sample-inner">
+    <span class="section-tag">Exemplo Real</span>
+    <h2 class="section-title" style="margin-bottom:2rem;">O que chega ao seu telemóvel<br/>por cada <em>lead.</em></h2>
+    <div class="sample-label">
+      <div class="sample-dot"></div>
+      Exemplo real de mensagem recebida
+    </div>
+    <div class="lead-card">
+      <div class="lead-card-header">
+        <div class="lead-id">Lead #0042 · 28 Mar 2026 · 14:32</div>
+        <div class="lead-urgency"><div class="lead-urgency-dot"></div>Urgência Alta — Esta semana</div>
+      </div>
+      <div class="lead-grid">
+        <div class="lead-block">
+          <div class="lead-block-title">Perfil Psicológico</div>
+          <div class="profile-pill"><span class="profile-pill-icon">👑</span>O Líder Determinado</div>
+          <p class="profile-desc-small">Autoconfiante, orientado para o estatuto e performance. O carro é uma extensão da personalidade. Valoriza presença e controlo.</p>
+        </div>
+        <div class="lead-block">
+          <div class="lead-block-title">Carros Recomendados</div>
+          <div class="cars-mini">
+            <div class="car-mini-row"><div class="car-mini-dot" style="background:var(--green)"></div><span class="car-mini-name">BMW Série 1 M Sport</span><span class="car-mini-range">Nacional</span></div>
+            <div class="car-mini-row"><div class="car-mini-dot" style="background:var(--amber)"></div><span class="car-mini-name">BMW Série 3 M Sport</span><span class="car-mini-range">Importação</span></div>
+            <div class="car-mini-row"><div class="car-mini-dot" style="background:var(--red)"></div><span class="car-mini-name">Mercedes C 300 AMG</span><span class="car-mini-range">Importação</span></div>
+          </div>
+        </div>
+        <div class="lead-block">
+          <div class="lead-block-title">Orçamento Estimado</div>
+          <div class="budget-bar-wrap">
+            <div class="budget-label"><span>0€</span><span>100.000€</span></div>
+            <div class="budget-track"><div class="budget-fill"></div></div>
+          </div>
+          <div class="budget-value">38.000€ – 55.000€</div>
+        </div>
+        <div class="lead-block">
+          <div class="lead-block-title">Urgência de Compra</div>
+          <div class="urgency-bar">
+            <div class="urgency-block filled"></div>
+            <div class="urgency-block filled"></div>
+            <div class="urgency-block filled"></div>
+            <div class="urgency-block filled"></div>
+            <div class="urgency-block empty"></div>
+          </div>
+          <div class="urgency-text">🔴 Alta — Decisão esta semana</div>
+        </div>
+      </div>
+      <div class="lead-card-footer">
+        <div class="lead-footer-note">Contacto disponível para stands do plano <strong>Pro</strong> e <strong>Premium</strong></div>
+        <div class="lead-footer-note" style="color:var(--gold2);">★ Lead Premium · Segmento Executivo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+
+<!-- GATE: Verificação de Stand -->
+<section id="gate" style="padding:5rem 1.5rem;text-align:center;border-top:1px solid rgba(255,255,255,.04);">
+  <div style="max-width:500px;margin:0 auto;">
+    <span style="font-size:.62rem;letter-spacing:.22em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.8rem;">Acesso Reservado a Stands</span>
+    <h2 style="font-family:Cormorant Garamond,serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;line-height:1.2;margin-bottom:.8rem;">Antes de ver os planos,<br/><em style="font-style:italic;color:#e2c065;">confirme o seu stand.</em></h2>
+    <p style="font-size:.82rem;color:#888;font-weight:300;line-height:1.7;margin-bottom:2rem;">Para garantir que os nossos leads chegam apenas a stands verificados, pedimos uma confirmação básica antes de avançar.</p>
+
+    <div style="display:grid;gap:.8rem;text-align:left;">
+      <div>
+        <label style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#666;display:block;margin-bottom:.4rem;">Nome do Stand *</label>
+        <input id="gNome" type="text" placeholder="Ex: Auto Silva, Lda" style="width:100%;padding:.85rem 1rem;background:#111;border:1px solid rgba(255,255,255,.1);color:#f0ede8;font-family:Outfit,sans-serif;font-size:.85rem;border-radius:4px;outline:none;"/>
+      </div>
+      <div>
+        <label style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#666;display:block;margin-bottom:.4rem;">NIF *</label>
+        <input id="gNif" type="text" placeholder="Ex: 501234567" maxlength="9" style="width:100%;padding:.85rem 1rem;background:#111;border:1px solid rgba(255,255,255,.1);color:#f0ede8;font-family:Outfit,sans-serif;font-size:.85rem;border-radius:4px;outline:none;"/>
+      </div>
+      <div>
+        <label style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#666;display:block;margin-bottom:.4rem;">Certidão Permanente *</label>
+        <input id="gCertidao" type="text" placeholder="Código da certidão permanente" style="width:100%;padding:.85rem 1rem;background:#111;border:1px solid rgba(255,255,255,.1);color:#f0ede8;font-family:Outfit,sans-serif;font-size:.85rem;border-radius:4px;outline:none;"/>
+        <p style="font-size:.65rem;color:#555;margin-top:.3rem;">Disponível em <a href="https://eportugal.gov.pt" target="_blank" style="color:#c9a84c;">eportugal.gov.pt</a></p>
+      </div>
+      <div>
+        <label style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#666;display:block;margin-bottom:.4rem;">Telefone *</label>
+        <input id="gTel" type="tel" placeholder="Ex: 912 345 678" style="width:100%;padding:.85rem 1rem;background:#111;border:1px solid rgba(255,255,255,.1);color:#f0ede8;font-family:Outfit,sans-serif;font-size:.85rem;border-radius:4px;outline:none;"/>
+      </div>
+    </div>
+
+    <div id="gErr" style="display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);padding:.8rem;border-radius:4px;margin-top:1rem;font-size:.78rem;color:#f87171;"></div>
+
+    <button onclick="submitGate()" style="width:100%;margin-top:1.2rem;padding:1.1rem;background:#e2c065;color:#080808;font-family:Outfit,sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;border-radius:4px;">
+      Confirmar e Ver Planos →
+    </button>
+    <p style="font-size:.68rem;color:#444;margin-top:.8rem;">Os dados são usados apenas para verificação. Não partilhamos com terceiros.</p>
+  </div>
+</section>
+
+<!-- PLANOS (hidden until gate passed) -->
+<div id="plansWrap" style="display:none;">
+<section id="plans">
+  <div class="section-inner">
+    <span class="section-tag">Planos de Parceria</span>
+    <h2 class="section-title">Escolha o plano<br/>e comece a receber <em>leads hoje.</em></h2>
+    <p class="section-body" style="max-width:50ch;">Sem letra pequena. Sem contratos. Cancele quando quiser. Se no primeiro mês não receber leads de qualidade, devolvemos o dinheiro.</p>
+
+    <div class="plans-grid">
+
+      <!-- STARTER -->
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">99<span>€</span></div>
+        <div class="plan-period">por mês · sem permanência</div>
+        <div class="plan-features">
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> 5 leads qualificados/mês</div>
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> 1 perfil psicológico à escolha</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Ficha completa de cada lead</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Orçamento e urgência incluídos</div>
+          <div class="plan-feat" style="opacity:.4"><span class="plan-feat-check">—</span> Contacto direto do comprador</div>
+          <div class="plan-feat" style="opacity:.4"><span class="plan-feat-check">—</span> Leads prioritários</div>
+          <div class="plan-feat" style="opacity:.4"><span class="plan-feat-check">—</span> Gestor de conta dedicado</div>
+        </div>
+        <a href="https://wa.me/351911954717?text=Olá!%20Tenho%20interesse%20no%20plano%20Starter%20do%20CarroIdeal.pt." class="plan-btn plan-btn-outline" target="_blank">Começar no Starter</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan-card featured">
+        <div class="plan-badge">Mais Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">199<span>€</span></div>
+        <div class="plan-period">por mês · sem permanência</div>
+        <div class="plan-features">
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> 15 leads qualificados/mês</div>
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> 3 perfis psicológicos à escolha</div>
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> Contacto direto do comprador</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Ficha completa de cada lead</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Orçamento e urgência incluídos</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Leads por ordem de urgência</div>
+          <div class="plan-feat" style="opacity:.4"><span class="plan-feat-check">—</span> Gestor de conta dedicado</div>
+        </div>
+        <a href="https://wa.me/351911954717?text=Olá!%20Tenho%20interesse%20no%20plano%20Pro%20do%20CarroIdeal.pt." class="plan-btn plan-btn-gold" target="_blank">Aderir ao Pro</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="plan-card">
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">349<span>€</span></div>
+        <div class="plan-period">por mês · sem permanência</div>
+        <div class="plan-features">
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> Leads ilimitados/mês</div>
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> Todos os perfis psicológicos</div>
+          <div class="plan-feat highlight"><span class="plan-feat-check">✓</span> Gestor de conta dedicado</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Contacto direto do comprador</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Leads prioritários — primeiros a receber</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Relatório mensal de performance</div>
+          <div class="plan-feat"><span class="plan-feat-check">✓</span> Segmentação por marca e modelo</div>
+        </div>
+        <a href="https://wa.me/351911954717?text=Olá!%20Tenho%20interesse%20no%20plano%20Premium%20do%20CarroIdeal.pt." class="plan-btn plan-btn-outline" target="_blank">Aderir ao Premium</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PERFIS DISPONÍVEIS -->
+<section id="profiles-index">
+  <div class="section-inner">
+    <span class="section-tag">Segmentação</span>
+    <h2 class="section-title" style="margin-bottom:.8rem;">Os 5 perfis de comprador<br/>que pode <em>receber.</em></h2>
+    <p class="section-body" style="margin-bottom:0;max-width:50ch;">Escolha os perfis que correspondem aos carros do seu stock. Só recebe leads relevantes para o seu negócio.</p>
+    <div class="profiles-grid">
+      <div class="profile-card">
+        <span class="profile-card-icon">👑</span>
+        <div class="profile-card-name">O Líder Determinado</div>
+        <div class="profile-card-desc">Quer presença, performance e estatuto. Orçamento elevado, decisão rápida.</div>
+        <div class="profile-card-chips"><span class="p-chip">BMW</span><span class="p-chip">Mercedes</span><span class="p-chip">Audi</span></div>
+      </div>
+      <div class="profile-card">
+        <span class="profile-card-icon">🏔️</span>
+        <div class="profile-card-name">O Explorador Livre</div>
+        <div class="profile-card-desc">Quer 4x4 e versatilidade. Prioriza capacidade off-road e robustez.</div>
+        <div class="profile-card-chips"><span class="p-chip">Land Rover</span><span class="p-chip">Toyota</span><span class="p-chip">Dacia</span></div>
+      </div>
+      <div class="profile-card">
+        <span class="profile-card-icon">⚡</span>
+        <div class="profile-card-name">O Visionário Moderno</div>
+        <div class="profile-card-desc">Quer elétrico ou híbrido. Tecnologia e sustentabilidade são obrigatórias.</div>
+        <div class="profile-card-chips"><span class="p-chip">Tesla</span><span class="p-chip">Hyundai</span><span class="p-chip">BMW i</span></div>
+      </div>
+      <div class="profile-card">
+        <span class="profile-card-icon">🔬</span>
+        <div class="profile-card-name">O Estratega Refinado</div>
+        <div class="profile-card-desc">Quer qualidade discreta. Berlinas e carrinhas executivas de topo.</div>
+        <div class="profile-card-chips"><span class="p-chip">Volvo</span><span class="p-chip">Audi</span><span class="p-chip">VW</span></div>
+      </div>
+      <div class="profile-card">
+        <span class="profile-card-icon">🏠</span>
+        <div class="profile-card-name">O Guardião Familiar</div>
+        <div class="profile-card-desc">Quer espaço, segurança e fiabilidade. SUV familiar é a prioridade.</div>
+        <div class="profile-card-chips"><span class="p-chip">Kia</span><span class="p-chip">VW</span><span class="p-chip">BMW X</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <span class="section-tag">Dúvidas Frequentes</span>
+    <h2 class="section-title" style="text-align:center;">Perguntas <em>frequentes.</em></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Como chegam os clientes ao site? <span class="faq-icon">+</span></div>
+        <div class="faq-a">O cliente faz um teste de perfil no CarroIdeal.pt, vê os carros recomendados e clica para pedir proposta. Só chega ao stand quem realmente quer comprar — não há curiosos.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Posso sair quando quiser? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Sim, sem complicações. Avisa-nos 15 dias antes da renovação e cancelamos. Sem penalizações, sem contratos.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Outros stands recebem o mesmo lead? <span class="faq-icon">+</span></div>
+        <div class="faq-a">No plano Premium o lead vai primeiro para si. Nos outros planos, o mesmo lead pode ir para no máximo 2 stands — mas de segmentos complementares, nunca concorrentes directos.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">E se os leads não prestarem? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Cada cliente passou por 10 perguntas, indicou orçamento e urgência de compra. Se no primeiro mês não fechar nenhum negócio, analisamos juntos o que correu mal e adaptamos. A nossa reputação depende dos seus resultados.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Como me chegam os leads? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Directamente por WhatsApp, em tempo real. Recebe uma mensagem com o perfil do cliente, o carro pretendido e o contacto. No plano Premium tem também um resumo mensal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+</div>
+<section id="cta-final">
+  <span class="section-tag" style="display:block;margin-bottom:1rem;">Pronto para começar?</span>
+  <h2 class="section-title">Pronto para receber<br/>os primeiros <em>leads?</em></h2>
+  <p style="font-size:.88rem;color:var(--silver);font-weight:300;max-width:42ch;margin:1rem auto 2.5rem;line-height:1.75;">Fale connosco agora. Em menos de 5 minutos escolhe o plano, submetemos o seu stand e começamos a enviar leads.</p>
+  <a href="https://wa.me/351911954717?text=Olá!%20Vim%20da%20página%20de%20parceiros%20do%20CarroIdeal.pt%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20para%20stands." class="cta-btn-wa" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+    Falar Connosco Agora
+  </a>
+  <p class="cta-note">Resposta garantida em menos de 2 horas · Sem compromisso</p>
+</section>
+
+<footer>
+  <span class="footer-logo">CARROIDEAL.PT</span>
+  <p>Consultoria Automóvel · Vila Verde, Braga · Portugal</p>
+  <p><a href="index.html">← Voltar ao site principal</a></p>
+</footer>
+
+<a href="https://wa.me/351911954717?text=Olá!%20Vim%20da%20página%20de%20parceiros%20do%20CarroIdeal.pt." class="wa-float" target="_blank">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+</a>
+
+<script>
+function toggleFaq(el){
+  const item=el.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen){item.classList.add('open');el.querySelector('.faq-icon').textContent='−';}
+  document.querySelectorAll('.faq-icon').forEach(i=>{if(i.textContent!=='−')i.textContent='+';});
+}
+</script>
+
+<script>
+function submitGate(){
+  const nome = document.getElementById('gNome').value.trim();
+  const nif = document.getElementById('gNif').value.trim();
+  const cert = document.getElementById('gCertidao').value.trim();
+  const tel = document.getElementById('gTel').value.trim();
+  const err = document.getElementById('gErr');
+
+  if(!nome || !nif || !cert || !tel){
+    err.style.display='block';
+    err.textContent='Por favor preencha todos os campos obrigatórios.';
+    return;
+  }
+  if(nif.length < 9 || isNaN(nif)){
+    err.style.display='block';
+    err.textContent='NIF inválido. Deve ter 9 dígitos.';
+    return;
+  }
+
+  // Send to WhatsApp for verification
+  const msg = encodeURIComponent('Novo pedido de acesso de stand:
+
+Stand: ' + nome + '
+NIF: ' + nif + '
+Certidão: ' + cert + '
+Telefone: ' + tel);
+  window.open('https://wa.me/351911954717?text=' + msg, '_blank');
+
+  // Show plans
+  document.getElementById('gate').style.display='none';
+  document.getElementById('plansWrap').style.display='block';
+  document.getElementById('plansWrap').scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
