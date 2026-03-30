@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CarroIdeal.pt</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#080808;color:#f0ede8;font-family:'Outfit',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:linear-gradient(to bottom,rgba(8,8,8,.95),transparent);}
+.nav-logo img{height:38px;}
+.nav-btn{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#f0ede8;border:1px solid rgba(255,255,255,.25);padding:.5rem 1rem;text-decoration:none;border-radius:4px;transition:all .2s;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);}
+.nav-btn:hover{border-color:#e2c065;color:#e2c065;}
+
+/* HERO */
+#hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 1.5rem 3rem;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.3;}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,8,8,.4) 0%,rgba(8,8,8,.2) 40%,rgba(8,8,8,.8) 85%,#080808 100%);}
+.hero-content{position:relative;z-index:2;max-width:560px;width:100%;}
+.hero-logo{width:min(280px,75vw);margin:0 auto 1.5rem;display:block;}
+.hero-sub{font-size:.9rem;color:rgba(255,255,255,.75);font-weight:300;line-height:1.7;max-width:32ch;margin:0 auto 2rem;text-shadow:0 2px 8px rgba(0,0,0,.8);}
+
+/* PATH BUTTONS */
+.path-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;max-width:420px;margin:0 auto;align-items:stretch;}
+.path-btn{padding:1.4rem 1rem;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.55);backdrop-filter:blur(12px);cursor:pointer;transition:all .3s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.5rem;border-radius:8px;height:100%;}
+.path-pill{margin-top:auto;}
+.path-btn:hover,.path-btn.sel{border-color:#e2c065;background:rgba(0,0,0,.7);}
+.path-icon{font-size:2rem;}
+.path-label{font-size:.85rem;font-weight:700;color:#f0ede8;letter-spacing:.02em;}
+.path-desc{font-size:.72rem;color:#aaa;font-weight:300;line-height:1.5;text-align:center;}
+.path-pill{font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;margin-top:.2rem;}
+.pill-pt{background:rgba(255,255,255,.1);color:#f0ede8;border:1px solid rgba(255,255,255,.2);}
+.pill-imp{background:rgba(255,255,255,.1);color:#f0ede8;border:1px solid rgba(255,255,255,.2);}
+
+.btn-start{display:none;width:100%;max-width:420px;margin:1.2rem auto 0;padding:1.1rem;background:#e2c065;color:#080808;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;border-radius:8px;transition:all .2s;box-shadow:0 4px 20px rgba(226,192,101,.3);}
+.btn-start.show{display:block;}
+.btn-start:hover{background:#c9a84c;}
+
+/* TEST */
+#test{display:none;min-height:100svh;padding:5rem 1.5rem 3rem;}
+.test-wrap{max-width:560px;margin:0 auto;}
+.path-badge{display:inline-flex;align-items:center;gap:.5rem;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.35rem .9rem;border-radius:20px;margin-bottom:2rem;}
+.badge-pt{background:rgba(74,222,128,.08);color:#4ade80;border:1px solid rgba(74,222,128,.15);}
+.badge-imp{background:rgba(201,168,76,.08);color:#e2c065;border:1px solid rgba(201,168,76,.15);}
+.prog-wrap{margin-bottom:2rem;}
+.prog-top{display:flex;justify-content:space-between;font-size:.68rem;color:#666;margin-bottom:.5rem;}
+.prog-track{height:2px;background:#1e1e1e;border-radius:2px;}
+.prog-fill{height:2px;background:linear-gradient(to right,#c9a84c,#e2c065);border-radius:2px;transition:width .5s ease;}
+.q-block{display:none;}
+.q-block.on{display:block;animation:fadeUp .3s ease both;}
+.q-cat{font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;margin-bottom:.6rem;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,4.5vw,1.8rem);font-weight:400;line-height:1.3;margin-bottom:1.8rem;color:#f0ede8;}
+.lik-labels{display:flex;justify-content:space-between;font-size:.6rem;color:#666;margin-bottom:.6rem;}
+.lik-row{display:flex;gap:.4rem;}
+.lb{flex:1;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);color:#666;font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.2rem;padding:.65rem .2rem;min-height:52px;border-radius:4px;}
+.lb .v{font-size:.58rem;opacity:.45;}
+.lb.on{border-color:#e2c065;background:rgba(226,192,101,.08);color:#f0ede8;}
+.lb.on .v{opacity:.8;color:#e2c065;}
+.sopts{display:grid;gap:.5rem;}
+.so{display:flex;align-items:flex-start;gap:.7rem;padding:.9rem 1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#888;font-size:.83rem;font-weight:300;line-height:1.5;cursor:pointer;transition:all .2s;text-align:left;border-radius:4px;}
+.so.on{border-color:#e2c065;background:rgba(226,192,101,.06);color:#f0ede8;}
+.q-nav{display:flex;gap:.8rem;margin-top:1.5rem;}
+.btn-back{flex-shrink:0;background:transparent;border:1px solid rgba(255,255,255,.1);color:#666;font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.75rem 1.2rem;cursor:pointer;border-radius:4px;}
+.btn-back:disabled{opacity:.2;pointer-events:none;}
+.btn-next{flex:1;background:#e2c065;border:none;color:#080808;font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.75rem;cursor:pointer;border-radius:4px;}
+.btn-next:disabled{opacity:.25;pointer-events:none;}
+
+/* RESULT */
+#result{display:none;padding:5rem 1.5rem 3rem;}
+.result-wrap{max-width:560px;margin:0 auto;}
+.profile-box{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:1.8rem 1.5rem;text-align:center;margin-bottom:1.5rem;}
+.p-tag{font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.6rem;}
+.p-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:600;margin-bottom:.5rem;}
+.p-desc{font-size:.8rem;color:#888;line-height:1.75;font-weight:300;}
+.cars-title{font-size:.62rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;margin:1.5rem 0 .8rem;}
+.car-card{background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;margin-bottom:.8rem;overflow:hidden;}
+.car-photo{width:100%;height:160px;object-fit:cover;display:block;border-bottom:1px solid rgba(255,255,255,.06);}
+.car-body-inner{padding:1rem;display:flex;gap:.8rem;align-items:flex-start;}
+.car-card.cn{border-left:3px solid #4ade80;}
+.car-card.ci1{border-left:3px solid #e2c065;}
+.car-card.ci2{border-left:3px solid #f87171;}
+.car-num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:rgba(255,255,255,.1);line-height:1;flex-shrink:0;width:36px;}
+.car-info{}
+.car-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.3rem;}
+.cbadge{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:.12rem .5rem;border-radius:2px;}
+.cbadge-pt{border:1px solid rgba(74,222,128,.3);color:#4ade80;}
+.cbadge-imp{border:1px solid rgba(201,168,76,.3);color:#e2c065;}
+.car-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;margin-bottom:.2rem;}
+.car-range{font-size:.7rem;color:#e2c065;font-weight:600;margin-bottom:.4rem;}
+.car-desc{font-size:.75rem;color:#666;line-height:1.6;font-weight:300;margin-bottom:.6rem;}
+.car-link{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#e2c065;text-decoration:none;border-bottom:1px solid rgba(226,192,101,.3);padding-bottom:.08rem;}
+
+/* CTA */
+.cta-box{background:#111;border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:2rem 1.5rem;text-align:center;margin-top:1.5rem;}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,4vw,1.8rem);font-weight:600;margin-bottom:.5rem;}
+.cta-sub{font-size:.78rem;color:#888;font-weight:300;line-height:1.7;margin-bottom:1.5rem;}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:.6rem;background:#25D366;color:#fff;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1rem;text-decoration:none;border-radius:4px;margin-bottom:.6rem;}
+.btn-wa:hover{background:#1fba5a;}
+.btn-out{display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,.1);color:#666;font-family:'Outfit',sans-serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.85rem;text-decoration:none;border-radius:4px;cursor:pointer;margin-bottom:.6rem;}
+.btn-out:hover{border-color:#e2c065;color:#e2c065;}
+.urgency{font-size:.7rem;color:#555;margin-top:.8rem;}
+.urgency strong{color:#e2c065;}
+
+/* FOOTER */
+footer{padding:2rem 1.5rem;text-align:center;border-top:1px solid rgba(255,255,255,.04);}
+footer img{height:30px;margin:0 auto .5rem;display:block;opacity:.6;}
+footer p{font-size:.68rem;color:#444;}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:1.2rem;right:1.2rem;z-index:200;background:#25D366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);text-decoration:none;}
+.wa-float svg{width:22px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="position:relative;">
+    <button onclick="toggleAbout()" class="nav-btn" style="cursor:pointer;display:flex;align-items:center;gap:.4rem;">
+      CarroIdeal.pt <span id="aboutArrow" style="font-size:.6rem;transition:transform .3s;">▼</span>
+    </button>
+    <div id="aboutDrop" style="display:none;position:absolute;top:calc(100% + .8rem);left:0;width:300px;background:#111;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:1.4rem;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.6);">
+      <p style="font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:#c9a84c;margin-bottom:.8rem;">O que é este site?</p>
+      <p style="font-size:.8rem;color:#bbb;line-height:1.75;font-weight:300;margin-bottom:.8rem;">O <strong style="color:#f0ede8;">CarroIdeal.pt</strong> não é um stand. Não vendemos carros. Somos consultores independentes — trabalhamos para quem quer comprar, não para quem quer vender.</p>
+      <p style="font-size:.8rem;color:#bbb;line-height:1.75;font-weight:300;margin-bottom:.8rem;">Fazes um teste breve sobre a tua personalidade. Com base nas respostas, identificamos o teu perfil e os 3 carros que realmente fazem sentido para ti.</p>
+      <p style="font-size:.8rem;color:#bbb;line-height:1.75;font-weight:300;margin-bottom:.8rem;">Se quiseres comprar em Portugal, localizamos o carro nos stands mais próximos. Se quiseres importar da Europa, tratamos de tudo — da pesquisa à entrega com matrícula portuguesa.</p>
+      <p style="font-size:.78rem;color:#e2c065;font-weight:500;">✓ Grátis para o comprador &nbsp;·&nbsp; ✓ Sem compromisso &nbsp;·&nbsp; ✓ 30 anos de experiência</p>
+      <button onclick="toggleAbout()" style="margin-top:1rem;font-size:.65rem;color:#555;background:none;border:none;cursor:pointer;text-decoration:underline;">Fechar</button>
+    </div>
+  </div>
+  <a href="stands.html" class="nav-btn">Para Stands</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600&q=80&fit=crop" alt=""/>
+  </div>
+  <div class="hero-content">
+    <p style="font-size:1rem;color:#fff;font-weight:400;line-height:1.7;max-width:32ch;margin:0 auto 2rem;text-align:center;text-shadow:0 2px 12px rgba(0,0,0,.9);background:rgba(0,0,0,.45);padding:.8rem 1.2rem;border-radius:6px;backdrop-filter:blur(4px);">Quanto mais respondes, mais carros descobres.<br/>Começa agora — é grátis.</p>
+    <a href="https://youtube.com/shorts/Q6FKDVfLtbg" target="_blank" style="display:inline-flex;align-items:center;gap:.6rem;margin:0 auto 1.5rem;padding:.6rem 1.2rem;border:1px solid rgba(255,255,255,.2);border-radius:4px;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);text-decoration:none;color:#fff;font-size:.72rem;font-weight:500;letter-spacing:.08em;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff0000" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>
+      ▶ Ver apresentação em vídeo
+    </a>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;max-width:420px;margin:0 auto;">
+      <button class="path-btn" onclick="selPath('national',this)" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.2rem .8rem;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.6);backdrop-filter:blur(12px);cursor:pointer;border-radius:8px;gap:.4rem;">
+        <span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;"><svg width="32" height="22" viewBox="0 0 32 22" xmlns="http://www.w3.org/2000/svg"><rect width="12" height="22" fill="#006600"/><rect x="12" width="20" height="22" fill="#FF0000"/><circle cx="12" cy="11" r="5" fill="#FFFF00" stroke="#000" stroke-width="0.5"/></svg></span>
+        <span style="font-size:.82rem;font-weight:700;color:#fff;">Comprar em Portugal</span>
+        <span style="font-size:.68rem;color:#bbb;font-weight:300;line-height:1.4;flex:1;">Encontramos o carro certo nos stands mais próximos de ti</span>
+        <span style="font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);margin-top:auto;">Entrega imediata</span>
+      </button>
+      <button class="path-btn" onclick="selPath('import',this)" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.2rem .8rem;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.6);backdrop-filter:blur(12px);cursor:pointer;border-radius:8px;gap:.4rem;">
+        <span style="font-size:2rem;">🌍</span>
+        <span style="font-size:.82rem;font-weight:700;color:#fff;">Importar da Europa</span>
+        <span style="font-size:.68rem;color:#bbb;font-weight:300;line-height:1.4;flex:1;">Encontramos, importamos e entregamos em Portugal com matrícula</span>
+        <span style="font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);margin-top:auto;">Poupas até 30%</span>
+      </button>
+    </div>
+    <button class="btn-start" id="btnStart" onclick="startTest()">Descobrir o meu carro ideal →</button>
+  </div>
+</section>
+
+
+
+
+<section id="test">
+  <div class="test-wrap">
+    <div id="pathBadge" class="path-badge"></div>
+    <div class="prog-wrap">
+      <div class="prog-top"><span id="qLbl">1 de 10</span><span id="qPct">0%</span></div>
+      <div class="prog-track"><div class="prog-fill" id="pFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="q-block on" data-i="0">
+      <div class="q-cat">Tomada de Decisão</div>
+      <p class="q-text">Como tomas decisões importantes?</p>
+      <div class="sopts">
+        <button class="so" data-dim="rational" data-val="-2">Pura intuição — confio no meu instinto.</button>
+        <button class="so" data-dim="rational" data-val="-1">Mais intuição do que análise.</button>
+        <button class="so" data-dim="rational" data-val="1">Mais análise do que intuição.</button>
+        <button class="so" data-dim="rational" data-val="2">Analiso tudo ao pormenor antes de decidir.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="1">
+      <div class="q-cat">Tolerância ao Risco</div>
+      <p class="q-text">Numa situação nova, como reages?</p>
+      <div class="sopts">
+        <button class="so" data-dim="bold" data-val="2"><span>🚀</span>Sou o primeiro. A adrenalina motiva-me.</button>
+        <button class="so" data-dim="bold" data-val="1"><span>↗️</span>Entro cedo após análise rápida.</button>
+        <button class="so" data-dim="bold" data-val="-1"><span>🔍</span>Observo os primeiros antes de decidir.</button>
+        <button class="so" data-dim="bold" data-val="-2"><span>🧱</span>Só avanço com provas concretas.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="2">
+      <div class="q-cat">Identidade</div>
+      <p class="q-text">A imagem que transmites importa-te?</p>
+      <div class="sopts">
+        <button class="so" data-dim="status" data-val="-2">Completamente indiferente. Não me importo.</button>
+        <button class="so" data-dim="status" data-val="-1">Pouco importante para mim.</button>
+        <button class="so" data-dim="status" data-val="1">Bastante importante — gosto de me apresentar bem.</button>
+        <button class="so" data-dim="status" data-val="2">Muito importante — a imagem diz tudo.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="3">
+      <div class="q-cat">Controlo</div>
+      <p class="q-text">Como reages quando perdes o controlo de algo?</p>
+      <div class="sopts">
+        <button class="so" data-dim="control" data-val="2"><span>😤</span>Muito desconfortável. Preciso de controlar.</button>
+        <button class="so" data-dim="control" data-val="1"><span>😐</span>Incomoda, mas adapto-me.</button>
+        <button class="so" data-dim="control" data-val="-1"><span>😌</span>Aceito bem. Nem tudo se controla.</button>
+        <button class="so" data-dim="control" data-val="-2"><span>🌊</span>Fluo facilmente. É natural.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="4">
+      <div class="q-cat">Social</div>
+      <p class="q-text">Preferes dias com pessoas ou no teu espaço?</p>
+      <div class="sopts">
+        <button class="so" data-dim="social" data-val="-2">Prefiro o meu espaço — sou muito pessoal.</button>
+        <button class="so" data-dim="social" data-val="-1">Gosto de alguma companhia mas valorizo o meu espaço.</button>
+        <button class="so" data-dim="social" data-val="1">Gosto de ter pessoas à minha volta a maior parte do tempo.</button>
+        <button class="so" data-dim="social" data-val="2">Sou muito social — quanto mais pessoas melhor!</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="5">
+      <div class="q-cat">Aventura</div>
+      <p class="q-text">Num fim-de-semana livre, o que escolhes?</p>
+      <div class="sopts">
+        <button class="so" data-dim="adventure" data-val="2"><span>🏔️</span>Trilho ou praia remota — fora do mapa.</button>
+        <button class="so" data-dim="adventure" data-val="1"><span>🌄</span>Aldeia desconhecida com boa gastronomia.</button>
+        <button class="so" data-dim="adventure" data-val="-1"><span>🏙️</span>Cidade nova com agenda planeada.</button>
+        <button class="so" data-dim="adventure" data-val="-2"><span>🏠</span>O sítio que já conheço. Sem surpresas.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="6">
+      <div class="q-cat">Futuro</div>
+      <p class="q-text">Quando compras algo importante, pensas mais no...</p>
+      <div class="sopts">
+        <button class="so" data-dim="future" data-val="-2">Vivo o presente — compro o que me dá prazer agora.</button>
+        <button class="so" data-dim="future" data-val="-1">Mais presente do que futuro.</button>
+        <button class="so" data-dim="future" data-val="1">Penso bastante no retorno e durabilidade.</button>
+        <button class="so" data-dim="future" data-val="2">Invisto sempre no futuro — durabilidade em primeiro.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="7">
+      <div class="q-cat">Ritmo</div>
+      <p class="q-text">Qual frase te descreve melhor?</p>
+      <div class="sopts">
+        <button class="so" data-dim="bold" data-val="2"><span>⚡</span>"Vou sempre a fundo. Detesto perder tempo."</button>
+        <button class="so" data-dim="bold" data-val="1"><span>🏃</span>"Sou ativo mas sei quando parar."</button>
+        <button class="so" data-dim="bold" data-val="-1"><span>🚶</span>"Prefiro ir devagar e bem."</button>
+        <button class="so" data-dim="bold" data-val="-2"><span>🧘</span>"Valorizo a serenidade e o equilíbrio."</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="8">
+      <div class="q-cat">Ambiente</div>
+      <p class="q-text">O ambiente influencia as tuas escolhas?</p>
+      <div class="sopts">
+        <button class="so" data-dim="eco" data-val="-2">Não influencia nada — o ambiente não é prioridade.</button>
+        <button class="so" data-dim="eco" data-val="-1">Influencia pouco — há factores mais importantes.</button>
+        <button class="so" data-dim="eco" data-val="1">Influencia bastante — prefiro opções mais ecológicas.</button>
+        <button class="so" data-dim="eco" data-val="2">É decisivo — só considero opções sustentáveis.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="9">
+      <div class="q-cat">Qualidade</div>
+      <p class="q-text">Conforto premium ou poupança — o que decide?</p>
+      <div class="sopts">
+        <button class="so" data-dim="status" data-val="2"><span>💎</span>O conforto. Pago mais para ter o melhor.</button>
+        <button class="so" data-dim="status" data-val="1"><span>✨</span>Qualidade dentro de um limite razoável.</button>
+        <button class="so" data-dim="status" data-val="-1"><span>⚖️</span>Equilíbrio. Só pago mais se justificado.</button>
+        <button class="so" data-dim="status" data-val="-2"><span>💡</span>Poupança. Funcionalidade primeiro.</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-i="10">
+      <div class="q-cat">Urgência</div>
+      <p class="q-text">Quando precisas do teu próximo carro?</p>
+      <div class="sopts">
+        <button class="so" data-dim="bold" data-val="2"><span>⚡</span>Já. Estou à procura agora.</button>
+        <button class="so" data-dim="bold" data-val="1"><span>📅</span>Nos próximos 1 a 3 meses.</button>
+        <button class="so" data-dim="bold" data-val="-1"><span>🔍</span>Ainda estou a explorar opções.</button>
+        <button class="so" data-dim="bold" data-val="-2"><span>💭</span>Não tenho pressa, é para o futuro.</button>
+      </div>
+    </div>
+
+    <!-- Intermediate result phase 1 - after Q3 -->
+    <div id="phase1" style="display:none;background:#111;border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;text-align:center;animation:fadeUp .4s ease both;">
+      <span style="font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.5rem;">O teu perfil está a tomar forma</span>
+      <div style="font-family:Cormorant Garamond,serif;font-size:1.4rem;font-weight:700;margin-bottom:.4rem;" id="phase1Name"></div>
+      <p style="font-size:.78rem;color:#888;font-weight:300;line-height:1.6;margin-bottom:1rem;" id="phase1Desc"></p>
+      <p style="font-size:.72rem;color:#aaa;">Continua para ver os carros ideais para ti →</p>
+    </div>
+
+    <!-- Intermediate result phase 2 - after Q7 -->
+    <div id="phase2" style="display:none;background:#111;border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .4s ease both;">
+      <span style="font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.8rem;text-align:center;">Os teus carros recomendados</span>
+      <div id="phase2Cars"></div>
+      <p style="font-size:.72rem;color:#aaa;text-align:center;margin-top:.8rem;">Mais 3 perguntas para afinar a recomendação →</p>
+    </div>
+
+    <div class="q-nav">
+      <button class="btn-back" id="btnBack" disabled onclick="goBack()">← Anterior</button>
+      <button class="btn-next" id="btnNext" disabled onclick="goNext()">Próximo →</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTADOR + TESTEMUNHOS -->
+<section id="social-proof" style="padding:3rem 1.5rem;border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);background:#0a0a0a;">
+  <div style="max-width:560px;margin:0 auto;text-align:center;">
+
+    <!-- Contador -->
+    <div style="margin-bottom:2.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,8vw,4rem);font-weight:700;color:#e2c065;line-height:1;" id="contador">47</div>
+      <div style="font-size:.75rem;color:#888;font-weight:300;margin-top:.4rem;letter-spacing:.05em;">pessoas encontraram o seu carro ideal este mês</div>
+    </div>
+
+    <!-- Testemunhos -->
+    <div style="display:grid;gap:.8rem;">
+
+      <div style="background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:1.2rem;text-align:left;">
+        <p style="font-size:.82rem;color:#ccc;line-height:1.75;font-weight:300;font-style:italic;margin-bottom:.8rem;">"Fiz o teste sem grandes expectativas e fiquei surpreendido. O carro que me recomendaram era exactamente o que eu queria mas não sabia descrever. Importado da Alemanha, poupei mais de 8.000€."</p>
+        <div style="display:flex;align-items:center;gap:.6rem;">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#e2c065;">JM</div>
+          <div>
+            <div style="font-size:.75rem;font-weight:600;color:#f0ede8;">João M.</div>
+            <div style="font-size:.65rem;color:#666;">Braga · BMW Série 3 importado</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#111;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:1.2rem;text-align:left;">
+        <p style="font-size:.82rem;color:#ccc;line-height:1.75;font-weight:300;font-style:italic;margin-bottom:.8rem;">"Não percebia nada de carros e não sabia por onde começar. O teste foi simples e o resultado fez todo o sentido. O José tratou de tudo, desde a pesquisa até à entrega. Recomendo."</p>
+        <div style="display:flex;align-items:center;gap:.6rem;">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#e2c065;">SR</div>
+          <div>
+            <div style="font-size:.75rem;font-weight:600;color:#f0ede8;">Sofia R.</div>
+            <div style="font-size:.65rem;color:#666;">Porto · Kia Sportage nacional</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="font-size:.65rem;color:#444;margin-top:1rem;">⭐⭐⭐⭐⭐ Avaliação média de 4.9/5 por clientes CarroIdeal.pt</p>
+  </div>
+</section>
+
+<!-- FASE 1: 1 CARRO (após 3 perguntas) -->
+<section id="fase1" style="display:none;padding:4rem 1.5rem 3rem;">
+  <div style="max-width:560px;margin:0 auto;text-align:center;">
+    <span style="font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.5rem;">O teu perfil</span>
+    <div id="f1Name" style="font-family:Cormorant Garamond,serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:700;margin-bottom:.5rem;"></div>
+    <p id="f1Desc" style="font-size:.82rem;color:#888;line-height:1.7;font-weight:300;margin-bottom:1.5rem;"></p>
+    <div style="text-align:left;margin-bottom:1.5rem;">
+      <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#c9a84c;margin-bottom:.8rem;">1º carro recomendado</div>
+      <div id="f1Cars"></div>
+    </div>
+    <div style="background:#111;border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:1.4rem;margin-bottom:1rem;text-align:left;">
+      <p style="font-size:.82rem;color:#f0ede8;font-weight:500;margin-bottom:.4rem;">Quer ver mais 2 opções?</p>
+      <p style="font-size:.75rem;color:#888;font-weight:300;margin-bottom:1rem;">Responde a mais 4 perguntas e receberes 2 carros adicionais.</p>
+      <button onclick="goFase2()" style="width:100%;padding:1rem;background:#e2c065;color:#080808;font-family:Outfit,sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:6px;">Ver mais opções →</button>
+    </div>
+    <button onclick="restart()" style="font-size:.7rem;color:#555;background:none;border:none;cursor:pointer;text-decoration:underline;">Recomeçar</button>
+  </div>
+</section>
+
+
+<!-- PHONE GATE -->
+<section id="phoneGate" style="display:none;padding:4rem 1.5rem 3rem;">
+  <div style="max-width:480px;margin:0 auto;text-align:center;">
+    <span style="font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.8rem;">Quase lá!</span>
+    <h2 style="font-family:Cormorant Garamond,serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:700;margin-bottom:.8rem;">Os teus 3 carros estão prontos.</h2>
+    <p style="font-size:.82rem;color:#888;line-height:1.75;font-weight:300;margin-bottom:2rem;">Deixa o teu número para recebermos os resultados e poder contactar-te se encontrarmos uma oportunidade especial para o teu perfil.</p>
+    <div style="display:grid;gap:.8rem;margin-bottom:1rem;">
+      <input id="clienteNome" type="text" placeholder="O teu nome" style="width:100%;padding:.9rem 1rem;background:#111;border:1px solid rgba(255,255,255,.15);color:#f0ede8;font-family:Outfit,sans-serif;font-size:.85rem;border-radius:6px;outline:none;"/>
+      <input id="clienteTel" type="tel" placeholder="Número de telefone (ex: 912 345 678)" style="width:100%;padding:.9rem 1rem;background:#111;border:1px solid rgba(255,255,255,.15);color:#f0ede8;font-family:Outfit,sans-serif;font-size:.85rem;border-radius:6px;outline:none;"/>
+    </div>
+    <div id="phoneErr" style="display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);padding:.7rem;border-radius:4px;margin-bottom:.8rem;font-size:.75rem;color:#f87171;"></div>
+    <label style="display:flex;align-items:flex-start;gap:.6rem;text-align:left;margin-bottom:1rem;cursor:pointer;">
+      <input type="checkbox" id="consentCheck" style="margin-top:.2rem;accent-color:#e2c065;width:16px;height:16px;flex-shrink:0;"/>
+      <span style="font-size:.72rem;color:#888;line-height:1.6;">Aceito que os meus dados (nome e telefone) sejam utilizados para contacto comercial pelo CarroIdeal.pt. Consulta a nossa <a href="privacidade.html" target="_blank" style="color:#e2c065;">Política de Privacidade</a>.</span>
+    </label>
+    <button onclick="submitPhone()" style="width:100%;padding:1.1rem;background:#e2c065;color:#080808;font-family:Outfit,sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:6px;margin-bottom:.8rem;">Ver os Meus Carros →</button>
+    <p style="font-size:.68rem;color:#444;">Não partilhamos o teu número com terceiros.</p>
+  </div>
+</section>
+
+<!-- FASE 2: CARROS -->
+<section id="fase2" style="display:none;padding:4rem 1.5rem 3rem;">
+  <div style="max-width:560px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <span style="font-size:.6rem;letter-spacing:.2em;color:#c9a84c;text-transform:uppercase;display:block;margin-bottom:.5rem;">O teu perfil</span>
+      <div id="f2Name" style="font-family:Cormorant Garamond,serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:700;margin-bottom:.4rem;"></div>
+      <p id="f2Desc" style="font-size:.78rem;color:#888;font-weight:300;"></p>
+    </div>
+    <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#c9a84c;margin-bottom:.8rem;">2 carros recomendados</div>
+    <div id="f2Cars"></div>
+    <div style="background:#111;border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:1.4rem;margin-top:1.5rem;text-align:center;">
+      <p style="font-size:.82rem;color:#f0ede8;font-weight:500;margin-bottom:.4rem;">Quer ver a 3ª opção e receber proposta?</p>
+      <p style="font-size:.75rem;color:#888;font-weight:300;margin-bottom:1rem;">Responde às últimas 3 perguntas e recebe o 3º carro + contacto directo.</p>
+      <button onclick="goFase3()" style="width:100%;padding:1rem;background:#e2c065;color:#080808;font-family:Outfit,sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:6px;">Ver 3ª opção →</button>
+    </div>
+  </div>
+</section>
+
+<section id="result">
+  <div class="result-wrap">
+    <div class="profile-box">
+      <span class="p-tag">O teu perfil</span>
+      <div class="p-name" id="pName"></div>
+      <p class="p-desc" id="pDesc"></p>
+    </div>
+    <div class="cars-title" id="carsTitle"></div>
+    <div id="carsGrid"></div>
+    <div class="cta-box">
+      <h3 class="cta-title" id="ctaTitle"></h3>
+      <p class="cta-sub" id="ctaSub"></p>
+      <a id="waBtn" href="#" class="btn-wa" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+        <span id="waTxt">Quero este Carro</span>
+      </a>
+      <button class="btn-out" onclick="restart()">↺ Repetir Teste</button>
+      <p class="urgency">⚡ Apenas <strong>5 vagas</strong> disponíveis esta semana</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-size:.8rem;font-weight:600;letter-spacing:.15em;color:#888;margin-bottom:.4rem;">CarroIdeal.pt</p>
+  <p>+351 911 954 717 · Portugal</p>
+</footer>
+
+<a href="https://wa.me/351911954717?text=Olá!%20Vim%20do%20CarroIdeal.pt." class="wa-float" target="_blank">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+</a>
+
+<script>
+const PROFILES={
+  leader:{name:"O Líder Determinado",desc:"Autoconfiante e orientado para a performance. O carro é uma extensão da tua personalidade.",
+    cars:[
+      {cl:"cn",n:1,badge:"cbadge-pt",type:"🇵🇹 Portugal",name:"BMW Série 1 M Sport",range:"28.000€ – 38.000€",specs:"2.0L · 136cv · Automático",desc:"Condução dinâmica e presença inconfundível."},
+      {cl:"ci1",n:2,badge:"cbadge-imp",type:"🌍 Importação",name:"BMW Série 3 M Sport",range:"35.000€ – 52.000€",specs:"2.0L · 190cv · Automático",desc:"Importado da Alemanha com equipamentos exclusivos."},
+      {cl:"ci2",n:3,badge:"cbadge-imp",type:"🌍 Importação",name:"Mercedes C 300 AMG",range:"52.000€ – 72.000€",specs:"2.0L · 258cv · Automático",desc:"Interior ultra-premium e equipamento AMG completo."}
+    ],
+    wa:"Olá! Vim do CarroIdeal.pt. Perfil: Líder Determinado. Quero saber mais."
+  },
+  explorer:{name:"O Explorador Livre",desc:"Aventureiro e espontâneo. Precisas de um carro capaz de ir além do alcatrão.",
+    cars:[
+      {cl:"cn",n:1,badge:"cbadge-pt",type:"🇵🇹 Portugal",name:"Dacia Duster 4x4",range:"18.000€ – 26.000€",specs:"1.5L · 115cv · Manual",desc:"O off-road mais acessível do mercado."},
+      {cl:"ci1",n:2,badge:"cbadge-imp",type:"🌍 Importação",name:"Toyota Land Cruiser 150",range:"48.000€ – 68.000€",specs:"3.0L · 190cv · Automático",desc:"Lendário em todo o terreno."},
+      {cl:"ci2",n:3,badge:"cbadge-imp",type:"🌍 Importação",name:"Land Rover Defender 110",range:"75.000€ – 108.000€",specs:"3.0L · 300cv · Automático",desc:"O ícone redefinido. Capacidade extrema."}
+    ],
+    wa:"Olá! Vim do CarroIdeal.pt. Perfil: Explorador Livre. Quero saber mais."
+  },
+  visionary:{name:"O Visionário Moderno",desc:"Inovador e eco-consciente. Tecnologia e sustentabilidade são requisitos.",
+    cars:[
+      {cl:"cn",n:1,badge:"cbadge-pt",type:"🇵🇹 Portugal",name:"Hyundai IONIQ 6",range:"38.000€ – 48.000€",specs:"Eléctrico · 228cv · 514km",desc:"O elétrico mais eficiente. Autonomia real +500km."},
+      {cl:"ci1",n:2,badge:"cbadge-imp",type:"🌍 Importação",name:"BMW iX1 xDrive30",range:"48.000€ – 62.000€",specs:"Eléctrico · 313cv · 417km",desc:"SUV elétrico premium da Alemanha."},
+      {cl:"ci2",n:3,badge:"cbadge-imp",type:"🌍 Importação",name:"Mercedes EQS 450+",range:"98.000€ – 135.000€",specs:"Eléctrico · 333cv · 770km",desc:"O eléctrico mais luxuoso. 770km de autonomia."}
+    ],
+    wa:"Olá! Vim do CarroIdeal.pt. Perfil: Visionário Moderno. Quero um eléctrico."
+  },
+  strategist:{name:"O Estratega Refinado",desc:"Analítico e discretamente sofisticado. Qualidade acima de tudo, sem excessos.",
+    cars:[
+      {cl:"cn",n:1,badge:"cbadge-pt",type:"🇵🇹 Portugal",name:"VW Passat Elegance",range:"38.000€ – 48.000€",specs:"2.0L TDI · 150cv · Automático",desc:"Discreta, fiável e executiva."},
+      {cl:"ci1",n:2,badge:"cbadge-imp",type:"🌍 Importação",name:"Audi A6 Avant S Line",range:"50.000€ – 68.000€",specs:"3.0L TDI · 231cv · Automático",desc:"Carrinha executiva com S Line completo."},
+      {cl:"ci2",n:3,badge:"cbadge-imp",type:"🌍 Importação",name:"Volvo S90 Recharge",range:"72.000€ – 98.000€",specs:"2.0L PHEV · 455cv · Automático",desc:"Sofisticação escandinava com híbrido plug-in."}
+    ],
+    wa:"Olá! Vim do CarroIdeal.pt. Perfil: Estratega Refinado. Quero saber mais."
+  },
+  guardian:{name:"O Guardião Familiar",desc:"Prático e comprometido. A família é a prioridade — espaço, segurança e valor.",
+    cars:[
+      {cl:"cn",n:1,badge:"cbadge-pt",type:"🇵🇹 Portugal",name:"Kia Sorento Hybrid",range:"42.000€ – 54.000€",specs:"1.6L Híbrido · 230cv · 7 lugares",desc:"7 lugares, híbrido, garantia 7 anos."},
+      {cl:"ci1",n:2,badge:"cbadge-imp",type:"🌍 Importação",name:"VW Touareg R-Line",range:"58.000€ – 75.000€",specs:"3.0L V6 · 286cv · Automático",desc:"SUV premium familiar com R-Line completo."},
+      {cl:"ci2",n:3,badge:"cbadge-imp",type:"🌍 Importação",name:"BMW X5 xDrive40d",range:"82.000€ – 112.000€",specs:"3.0L · 340cv · Automático",desc:"O melhor SUV familiar."}
+    ],
+    wa:"Olá! Vim do CarroIdeal.pt. Perfil: Guardião Familiar. Quero saber mais."
+  }
+};
+
+
+// ═══════════════════════════════════
+// BASE DE DADOS DE STANDS
+// Adiciona aqui os stands parceiros
+// ═══════════════════════════════════
+const STANDS_DB = [
+  {
+    id: 'motorsport',
+    nome: 'Stand Motorsport',
+    morada: 'Vila Verde, Braga',
+    telefone: '351911954717',
+    url: 'https://www.standmotorsport.com',
+    lat: 41.6494,
+    lng: -8.4326,
+    plano: 'premium',
+    perfis: ['leader','explorer','strategist','guardian','visionary'],
+    activo: true
+  }
+  // Exemplo de como adicionar mais stands:
+  // {
+  //   id: 'stand_porto',
+  //   nome: 'Auto Elite Porto',
+  //   morada: 'Matosinhos, Porto',
+  //   telefone: '351912345678',
+  //   url: 'https://www.autoeliteporto.pt',
+  //   lat: 41.1850,
+  //   lng: -8.6980,
+  //   plano: 'pro',
+  //   perfis: ['leader','strategist'],
+  //   activo: true
+  // }
+];
+
+function distanciaKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2-lat1) * Math.PI/180;
+  const dLng = (lng2-lng1) * Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+}
+
+function getStandsParaCarro(perfil, userLat, userLng) {
+  // Filtra stands com o perfil certo e activos
+  const standsMatch = STANDS_DB.filter(s => 
+    s.activo && s.perfis.includes(perfil)
+  );
+  
+  // Calcula distância e ordena
+  const standsComDist = standsMatch.map(s => ({
+    ...s,
+    dist: (userLat && userLng) ? distanciaKm(userLat, userLng, s.lat, s.lng) : null
+  }));
+  
+  if(userLat && userLng) {
+    standsComDist.sort((a,b) => a.dist - b.dist);
+  }
+  
+  return standsComDist;
+}
+
+function renderStandInfo(perfil, isImport) {
+  if(isImport) {
+    return '<div style="margin-top:.6rem;padding:.6rem .8rem;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:4px;">' +
+      '<div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#e2c065;margin-bottom:.3rem;">🌍 Importação via CarroIdeal</div>' +
+      '<div style="font-size:.78rem;font-weight:600;color:#f0ede8;margin-bottom:.1rem;">Consultoria CarroIdeal.pt</div>' +
+      '<div style="font-size:.68rem;color:#888;margin-bottom:.4rem;">Pesquisa · Importação · Entrega com matrícula PT</div>' +
+      '<a href="https://wa.me/351911954717?text=' + encodeURIComponent('Olá! Quero importar um carro da Europa. Podem ajudar?') + '" target="_blank" style="display:inline-block;font-size:.65rem;color:#e2c065;text-decoration:none;font-weight:600;">📱 Falar sobre importação →</a>' +
+      '</div>';
+  }
+  
+  const userLat = window.userLat || null;
+  const userLng = window.userLng || null;
+  const stands = getStandsParaCarro(perfil, userLat, userLng);
+  
+  if(stands.length === 0) {
+    return '<div style="margin-top:.6rem;padding:.6rem .8rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:4px;">' +
+      '<div style="font-size:.72rem;color:#666;">Ainda sem stands parceiros nesta zona. <a href="stands.html" style="color:#e2c065;">O teu stand pode aderir →</a></div>' +
+      '</div>';
+  }
+  
+  let html = '<div style="margin-top:.6rem;">';
+  html += '<div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#4ade80;margin-bottom:.5rem;">📍 Stands com este carro' + (stands.length > 1 ? ' — ordenados por proximidade' : '') + '</div>';
+  
+  stands.forEach((s, i) => {
+    const distTxt = s.dist !== null ? '~' + s.dist + 'km' : '';
+    const isFirst = i === 0;
+    html += '<div style="padding:.6rem .8rem;background:rgba(74,222,128,' + (isFirst ? '.06' : '.03') + ');border:1px solid rgba(74,222,128,' + (isFirst ? '.2' : '.1') + ');border-radius:4px;margin-bottom:.4rem;">';
+    if(isFirst && stands.length > 1) html += '<div style="font-size:.55rem;color:#4ade80;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem;">Mais próximo</div>';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.2rem;">';
+    html += '<div style="font-size:.78rem;font-weight:600;color:#f0ede8;">' + s.nome + '</div>';
+    if(distTxt) html += '<div style="font-size:.68rem;color:#4ade80;font-weight:600;">' + distTxt + '</div>';
+    html += '</div>';
+    html += '<div style="font-size:.68rem;color:#888;margin-bottom:.3rem;">' + s.morada + '</div>';
+    html += '<a href="' + s.url + '" target="_blank" style="font-size:.65rem;color:#4ade80;text-decoration:none;font-weight:600;margin-right:.8rem;">🌐 Ver site →</a>';
+    html += '<a href="https://wa.me/' + s.telefone + '?text=' + encodeURIComponent('Olá! Vim do CarroIdeal.pt. Tenho interesse num carro do vosso stand.') + '" target="_blank" style="font-size:.65rem;color:#25D366;text-decoration:none;font-weight:600;">📱 Contactar →</a>';
+    html += '</div>';
+  });
+  
+  if(stands.length > 1) {
+    html += '<div style="font-size:.62rem;color:#555;margin-top:.3rem;">A distância é relativa — o carro certo pode valer a viagem.</div>';
+  }
+  
+  html += '</div>';
+  return html;
+}
+
+// PERGUNTAS ACTIVAS (10 total)
+const ALL_Q = [0,1,2,3,4,5,6,7,8,9];
+const qblocks = document.querySelectorAll('.q-block');
+
+let userPath=null, profileKey=null, current=0;
+const answers = new Array(10).fill(null);
+
+// ─── SELECCIONAR CAMINHO ───
+function selPath(p,el){
+  userPath=p;
+  document.querySelectorAll('.path-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('btnStart').classList.add('show');
+}
+
+// ─── INICIAR TESTE ───
+function startTest(){
+  current=0;
+  document.getElementById('hero').style.display='none';
+  const t=document.getElementById('test');
+  t.style.display='block';
+  const b=document.getElementById('pathBadge');
+  b.className='path-badge '+(userPath==='national'?'badge-pt':'badge-imp');
+  b.textContent=userPath==='national'?'🇵🇹 Comprar em Portugal':'🌍 Importação Europa';
+  showQ(0);
+  t.scrollIntoView({behavior:'smooth'});
+}
+
+// ─── MOSTRAR PERGUNTA ───
+function showQ(idx){
+  qblocks.forEach(b=>b.classList.remove('on'));
+  qblocks[idx].classList.add('on');
+
+  // Progress bar
+  const pct=Math.round((idx/10)*100);
+  document.getElementById('pFill').style.width=pct+'%';
+  document.getElementById('qLbl').textContent=(idx+1)+' de 10';
+  document.getElementById('qPct').textContent=pct+'%';
+
+  document.getElementById('btnBack').disabled=idx===0;
+  document.getElementById('btnNext').disabled=answers[idx]===null;
+
+  // Botão muda conforme progresso
+  if(idx<3) document.getElementById('btnNext').textContent = current===9 ? 'Ver os Meus Carros →' : 'Próximo →';
+  else if(idx<7) document.getElementById('btnNext').textContent = current===9 ? 'Ver os Meus Carros →' : 'Próximo →';
+  else document.getElementById('btnNext').textContent = current===9 ? 'Ver os Meus Carros →' : 'Próximo →';
+}
+
+// ─── LISTENERS DE RESPOSTA ───
+qblocks.forEach((block,bi)=>{
+  block.querySelectorAll('.so').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      block.querySelectorAll('.so').forEach(o=>o.classList.remove('on'));
+      opt.classList.add('on');
+      answers[bi]={dim:opt.dataset.dim,val:parseInt(opt.dataset.val)};
+      document.getElementById('btnNext').disabled=false;
+    });
+  });
+  block.querySelectorAll('.lb').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      block.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      answers[bi]={dim:btn.dataset.dim,val:parseInt(btn.dataset.val)};
+      document.getElementById('btnNext').disabled=false;
+    });
+  });
+});
+
+// ─── PRÓXIMO ───
+function goNext(){
+  if(current===2){
+    // Após 3 perguntas → 1 carro
+    profileKey=calcProfile();
+    mostrarCarros(1);
+    document.getElementById('test').style.display='none';
+    document.getElementById('fase1').style.display='block';
+    document.getElementById('fase1').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  if(current===6){
+    // Após 7 perguntas → 2 carros
+    profileKey=calcProfile();
+    mostrarCarros(2);
+    document.getElementById('test').style.display='none';
+    document.getElementById('fase2').style.display='block';
+    document.getElementById('fase2').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  if(current===9){
+    // Após 10 perguntas → pede telefone + 3 carros
+    profileKey=calcProfile();
+    document.getElementById('test').style.display='none';
+    document.getElementById('phoneGate').style.display='block';
+    document.getElementById('phoneGate').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  current++;
+  showQ(current);
+  document.getElementById('test').scrollIntoView({behavior:'smooth'});
+}
+function goBack(){
+  if(current>0){
+    current--;
+    showQ(current);
+    document.getElementById('test').scrollIntoView({behavior:'smooth'});
+  }
+}
+
+// ─── CONTINUAR APÓS FASE 1 (1 carro) ───
+function goFase2(){
+  document.getElementById('fase1').style.display='none';
+  current=3;
+  document.getElementById('test').style.display='block';
+  showQ(current);
+  document.getElementById('test').scrollIntoView({behavior:'smooth'});
+}
+
+// ─── CONTINUAR APÓS FASE 2 (2 carros) ───
+function goFase3(){
+  document.getElementById('fase2').style.display='none';
+  current=7;
+  document.getElementById('test').style.display='block';
+  showQ(current);
+  document.getElementById('test').scrollIntoView({behavior:'smooth'});
+}
+
+// ─── SUBMETER TELEFONE ───
+function submitPhone(){
+  const nome=document.getElementById('clienteNome').value.trim();
+  const tel=document.getElementById('clienteTel').value.trim();
+  const err=document.getElementById('phoneErr');
+  const consent=document.getElementById('consentCheck');
+
+  if(!consent||!consent.checked){
+    err.style.display='block';
+    err.textContent='Por favor aceita a política de privacidade para continuar.';
+    return;
+  }
+  if(!tel||tel.replace(/\s/g,'').length<9){
+    err.style.display='block';
+    err.textContent='Por favor introduz um número de telefone válido.';
+    return;
+  }
+  err.style.display='none';
+  window.clienteNome=nome||'Cliente';
+  window.clienteTel=tel;
+
+  const distrito=window.userDistrict||'braga';
+  enviarLead(profileKey,distrito,nome,tel,'',userPath);
+
+  document.getElementById('phoneGate').style.display='none';
+  mostrarCarros(3);
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+
+// ─── MOSTRAR N CARROS ───
+function mostrarCarros(n){
+  profileKey=profileKey||calcProfile();
+  const p=PROFILES[profileKey];
+  const cars=p.cars.slice(0,n);
+
+  // Seleccionar container conforme fase
+  let gridId, nameId, descId;
+  if(n===1){gridId='f1Cars';nameId='f1Name';descId='f1Desc';}
+  else if(n===2){gridId='f2Cars';nameId='f2Name';descId='f2Desc';}
+  else{gridId='carsGrid';nameId='pName';descId='pDesc';}
+
+  if(nameId){
+    document.getElementById(nameId).textContent=p.name;
+    document.getElementById(descId).textContent=p.desc;
+  }
+
+  const grid=document.getElementById(gridId);
+  if(!grid)return;
+  grid.innerHTML='';
+
+  cars.forEach(c=>{
+    const card=document.createElement('div');
+    card.className='car-card '+c.cl;
+    const waMsg=encodeURIComponent('Olá! Vim do CarroIdeal.pt. Perfil: '+p.name+'. Tenho interesse no '+c.name+' ('+c.range+'). Podem ajudar?');
+    const sp=c.specs?'<div style="font-size:.68rem;color:#888;margin-bottom:.4rem;">'+c.specs+'</div>':'';
+    
+    // Stand info por tipo de carro
+    const isImport = c.badge !== 'cbadge-pt';
+    const standHtml = renderStandInfo(perfil, isImport);
+    
+    card.innerHTML='<div class="car-body-inner"><div class="car-num">'+c.n+'</div><div class="car-info"><div class="car-badges"><span class="cbadge '+c.badge+'">'+c.type+'</span></div><div class="car-name">'+c.name+'</div><div class="car-range">'+c.range+'</div>'+sp+'<div class="car-desc">'+c.desc+'</div><a href="https://wa.me/351911954717?text='+waMsg+'" target="_blank" class="car-link" style="color:#25D366;font-weight:600;display:inline-flex;align-items:center;gap:.3rem;margin-bottom:.4rem;">📱 Quero este carro →</a>'+standHtml+'</div></div>';
+    grid.appendChild(card);
+  });
+
+  // CTA no resultado final
+  if(n===3){
+    document.getElementById('ctaTitle').textContent='Encontramos estes carros por ti.';
+    document.getElementById('ctaSub').textContent='Negociamos o melhor preço — em Portugal ou importado da Europa.';
+    document.getElementById('waTxt').textContent=userPath==='national'?'Quero Comprar em Portugal':'Quero Importar da Europa';
+    document.getElementById('waBtn').href='https://wa.me/351911954717?text='+encodeURIComponent(p.wa);
+  }
+}
+
+// ─── CALCULAR PERFIL ───
+function calcProfile(){
+  const d={rational:0,bold:0,status:0,control:0,social:0,adventure:0,future:0,eco:0};
+  answers.forEach(a=>{if(a)d[a.dim]=(d[a.dim]||0)+a.val;});
+  const s={
+    leader:d.status*2+d.bold+d.control,
+    explorer:d.adventure*2+d.bold-d.rational,
+    visionary:d.eco*2+d.future*2-d.status,
+    strategist:d.rational*2+d.status-d.bold,
+    guardian:d.social*2-d.bold+d.future
+  };
+  return Object.entries(s).sort((a,b)=>b[1]-a[1])[0][0];
+}
+
+// ─── RESTART ───
+function restart(){
+  current=0;
+  answers.fill(null);
+  userPath=null;profileKey=null;
+  qblocks.forEach(b=>{b.querySelectorAll('.lb,.so').forEach(el=>el.classList.remove('on'));});
+  ['result','fase1','fase2','phoneGate'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.display='none';
+  });
+  document.getElementById('test').style.display='none';
+  document.getElementById('hero').style.display='flex';
+  document.querySelectorAll('.path-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('btnStart').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+<script>
+function toggleAbout(){
+  const drop = document.getElementById('aboutDrop');
+  const arrow = document.getElementById('aboutArrow');
+  const isOpen = drop.style.display === 'block';
+  drop.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+// Close on outside click
+document.addEventListener('click', function(e){
+  const drop = document.getElementById('aboutDrop');
+  if(drop && drop.style.display === 'block'){
+    if(!e.target.closest('nav > div')) drop.style.display = 'none';
+  }
+});
+</script>
+
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxs5WP9tIT3mMe7dcMJ3IOKFlEo3wsbVKJoRhxeGkMxhVWST58xCHIwfmlXKREjCmrD/exec";
+
+async function enviarLead(perfil, distrito, nomeLead, telLead, carros, path) {
+  try {
+    const perfilNome = PROFILES[perfil] ? PROFILES[perfil].name : perfil;
+    const carrosNomes = PROFILES[perfil] ? PROFILES[perfil].national.map(c => c.name).join(', ') : carros;
+    
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        perfil: perfilNome,
+        distrito: distrito || 'desconhecido',
+        nome: nomeLead || 'Cliente',
+        telefone: telLead || '',
+        carros: carrosNomes,
+        path: path || 'national'
+      })
+    });
+    console.log('Lead enviado para o script');
+  } catch(err) {
+    console.log('Erro ao enviar lead:', err);
+    // Fallback - abre WhatsApp directamente
+  }
+}
+</script>
+
+</body>
+</html>
